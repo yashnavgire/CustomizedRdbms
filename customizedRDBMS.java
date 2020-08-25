@@ -1,6 +1,97 @@
 
 import java.util.*;
 
+////////////////////Builder database pattern///////////////////////////// 
+class Database
+{
+    List<Table> tables;
+    HashMap<String,Integer> tableMapping;
+    
+
+    public Database()
+    {
+        tables = new ArrayList<Table>();
+        tableMapping = new HashMap<String,Integer>();
+    }
+
+
+            //Inner database class
+            class Table
+            {
+                //storing no. of coloumns of each datatype according to create table query
+                //Required these nos whenever new record added
+                int intCols;
+                int stringCols;
+                int boolCols;
+                int charCols;
+                int doubleCols;
+                int floatCols;
+
+                String tableName;
+                String[] coloumnNames;
+                String[] constraints;
+
+                //list mapping of column no. with datatype and its position in array for that datatype for that table
+                //required to know where to add new record data according to coloumn and datatype;
+                Map<Integer,pairType> pairs;
+                List<Record> records;
+                
+                Table(String[] tokens){
+                    pairs=new HashMap<Integer,pairType>();
+                    records=new LinkedList<Record>();
+
+                    //set and initialise other datastructures according to query
+                    intCols=1;
+
+
+                    
+                    //updating database structures for every new tables
+                    tables.add(this);
+                    tableMapping.put(this.tableName,tables.size());
+                }
+
+                //Inner Table class
+                class Record
+                {
+                    int[] intData;
+                    String[] stringdata;
+                    boolean[] boolData;
+                    char[] charData;
+                    double[] doubleData;
+                    float[] floatData;
+                    
+                    Record(String[] tokens)
+                    {
+                        intData=new int[intCols];
+                        //initialize other datastructure
+                    }
+                    
+                }
+
+                public void addRecord(String[] tokens)
+                {
+                    Record r=new Record(tokens);
+                    records.add(r);
+                }
+            }
+
+
+    
+    public Table getTable(String[] tokens)
+    {
+        Table t=new Table(tokens);
+        return t;
+    }
+
+    class pairType{
+        String dataType;
+        int position;
+    }
+    
+}
+
+
+////////////////////Normal single table ////////////////////
 class Node
 {
     public int rno;
